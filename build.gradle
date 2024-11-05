@@ -2,18 +2,28 @@ plugins {
     id 'java'
 }
 
-group = 'com.auto.seleniun.cucumber'
-version = '1.0-SNAPSHOT'
+group 'org.jesus.timote'
+version '1.0-SNAPSHOT'
 
 repositories {
     mavenCentral()
 }
 
 dependencies {
-    testImplementation platform('org.junit:junit-bom:5.10.0')
-    testImplementation 'org.junit.jupiter:junit-jupiter'
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
+    implementation 'org.seleniumhq.selenium:selenium-java:4.24.0'
+    implementation 'io.github.bonigarcia:webdrivermanager:5.9.2'
+    testImplementation 'org.testng:testng:7.10.2'
+    implementation 'io.cucumber:cucumber-java:7.18.1'
+    testImplementation 'io.cucumber:cucumber-junit:7.18.1'
+
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
 }
 
-test {
-    useJUnitPlatform()
+tasks.named('test') {
+    systemProperty "cucumber.options", System.getProperty("cucumber.options")
+    systemProperties System.getProperties();
+    testLogging {     // This is for logging and can be removed.
+        events("passed", "skipped", "failed")
+    }
 }
